@@ -1,2 +1,3 @@
 # echarts
 # echarts
+# react-cropper-
