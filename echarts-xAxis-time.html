@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+
+		<title>echarts-折线图-xAxis-time</title>
+		<link rel="shortcut icon" href="favicon.ico">
+	</head>
+
+	<style>
+		.trading-volume {
+			width: 100%;
+			height: 500px;
+		}
+	</style>
+
+	<body>
+		<div id="echarts" class="trading-volume"></div>
+	</body>
+
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.0.0/echarts.min.js"></script>
+	<script>
+		// 很多交互逻辑还没有确定，目前只是给出一个雏形
+		$(document).ready(function(){
+			var myChart = window.echarts.init(document.getElementById('echarts'))
+			var data = [];
+
+			var valueList=[
+				["2018-09-05 08:00:00", 4.243],
+				["2018-09-05 08:00:01", 4.2424],
+				["2018-09-05 08:00:02", 4.2443],
+				["2018-09-05 08:01:00", 4.2423],
+				["2018-09-05 08:02:00", 4.24313],
+				["2018-09-05 08:03:00", 4.2433],
+				["2018-09-05 08:04:00", 4.24213],
+				["2018-09-05 08:10:00", 4.2423],
+				["2018-09-05 08:10:01", 4.24534],
+				["2018-09-05 08:10:02", 4.2543],
+				["2018-09-05 08:11:00", 4.2653],
+				["2018-09-05 08:11:01", 4.24563],
+				["2018-09-05 08:12:00", 4.24613],
+				["2018-09-05 08:13:00", 4.2463],
+				["2018-09-05 08:14:00", 4.2513],		
+				["2018-09-05 09:00:00", 4.24231],
+				["2018-09-05 09:00:01", 4.2434],
+				["2018-09-05 09:00:02", 4.2443],
+				["2018-09-05 09:01:00", 4.2453],
+				["2018-09-05 09:01:01", 4.2463],
+				["2018-09-05 09:02:00", 4.24613],
+				["2018-09-05 09:03:00", 4.2482563],
+				["2018-09-05 09:04:00", 4.24713],
+				["2018-09-05 09:05:00", 4.242231],
+				["2018-09-05 09:06:01", 4.246234],
+				["2018-09-05 09:07:02", 4.2443],
+				["2018-09-05 09:08:00", 4.244253],
+				["2018-09-05 09:09:01", 4.245263],
+				["2018-09-05 09:12:00", 4.24613],
+				["2018-09-05 09:13:00", 4.2463],
+				["2018-09-05 09:14:00", 4.24713],
+				["2018-09-05 10:10:00", 4.2423],
+				["2018-09-05 10:10:01", 4.2434],
+				["2018-09-05 10:10:02", 4.2443],
+				["2018-09-05 10:11:00", 4.2453],
+				["2018-09-05 10:11:01", 4.2463],
+				["2018-09-05 10:12:00", 4.24613],
+				["2018-09-05 10:13:00", 4.24263],
+				["2018-09-05 10:24:00", 4.242513],	
+				["2018-09-05 11:00:00", 4.24231],
+				["2018-09-05 11:00:01", 4.24234],
+				["2018-09-05 11:00:02", 4.24243],
+				["2018-09-05 11:01:00", 4.24253],
+				["2018-09-05 11:01:01", 4.24263],
+				["2018-09-05 11:02:00", 4.242613],
+				["2018-09-05 11:03:00", 4.242563],
+				["2018-09-05 11:04:00", 4.242713],
+				["2018-09-05 11:11:00", 4.2453],
+				["2018-09-05 11:11:01", 4.2463],
+				["2018-09-05 11:12:00", 4.24613],
+				["2018-09-05 11:13:00", 4.24263],
+				["2018-09-05 11:24:00", 4.242513],	
+				["2018-09-05 11:30:00", 4.24231],
+				["2018-09-05 11:30:01", 4.24234],
+				["2018-09-05 11:30:02", 4.24243],
+				["2018-09-05 11:31:00", 4.24253],
+				["2018-09-05 11:41:01", 4.24263],
+				["2018-09-05 11:42:00", 4.242613],
+				["2018-09-05 11:43:00", 4.242563],
+				["2018-09-05 11:54:00", 4.242713],								
+			]
+
+			function getMinValue (valueList) {
+				var valueItem = valueList[0]
+				var minValue = valueItem[1]
+				for (var i = 0; i < valueList.length; i++) {
+					valueItem = valueList[i]
+					var value = valueItem[1]
+					console.log(valueItem, value)
+					if (value < minValue) {
+						minValue = value
+					}
+				}
+				return minValue
+			}
+
+			
+			function getMaxValue (valueList) {
+				var valueItem = valueList[0]
+				var maxValue = valueItem[1]
+				for (var i = 0; i < valueList.length; i++) {
+					valueItem = valueList[i]
+					var value = valueItem[1]
+					console.log(valueItem, value)
+					if (value > maxValue) {
+						maxValue = value
+					}
+				}
+				return maxValue
+			}
+			option = {
+				title : {
+					text: 'xAxis-time demo'
+				},
+				tooltip: {
+					trigger: 'axis',
+				},
+				xAxis: {
+					type: 'time',
+					min: new Date('2018-09-05 08:00:00'),
+					max: new Date('2018-09-05 18:00:00'),
+					splitNumber: 12,
+					splitLine: {
+						show: true
+					},
+					axisLabel: {                                
+						formatter:function(value)
+						{
+							var date = new Date(value);
+							var hour = date.getHours();
+							hour = hour < 10 ? ('0' + hour) : hour;
+							var minute = date.getMinutes();
+							minute = minute < 10 ? ('0' + minute) : minute;  		
+							return hour + ':' + minute 
+						}
+					}
+				},
+				yAxis: {
+					type: 'value',
+					min: "4.24", 
+					max: "4.28",
+					splitArea : {show : true}
+				},
+				dataZoom: [ // 解决折线不衔接的问题
+					{
+						type: 'slider',
+						show: false,
+						yAxisIndex: [0]                    
+					}
+				],
+				series: [{
+					name: '今日成交',
+					type: 'line',
+					showSymbol: true,
+					hoverAnimation: false,
+					data: valueList
+				}]
+			};
+
+			myChart.clear()
+			myChart.setOption(option, true)
+		})
+	</script>
+</html>
